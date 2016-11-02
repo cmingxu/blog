@@ -2,13 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://cmingxu.github.io/</loc>
+    <loc>https://cmingxu.github.io/blog/</loc>
     <lastmod>2016-11-02T14:55:30+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://cmingxu.github.io/post/foobar/</loc>
+    <loc>https://cmingxu.github.io/blog/post/foobar/</loc>
     <lastmod>2016-11-02T14:55:30+08:00</lastmod>
   </url>
   
