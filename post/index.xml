@@ -10,7 +10,7 @@
     <atom:link href="https://cmingxu.github.io/blog/post/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>为什么要做Crane这个工具</title>
+      <title>为什么要做Crane这个Docker管理工具</title>
       <link>https://cmingxu.github.io/blog/post/why-crane/</link>
       <pubDate>Thu, 03 Nov 2016 12:50:22 +0800</pubDate>
       
