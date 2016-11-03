@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>为什么要做Crane这个工具 &middot; 格物治理 知行合一</title>
+    <meta name="author" content="">
+    <meta name="description" content="">
+    <meta name="generator" content="Hugo 0.15" />
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <!-- RSS autodiscovery -->
+    
+
+    <link rel="shortcut icon" href="https://cmingxu.github.io/blog/img/favicon.ico">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/2.1.2/normalize.min.css">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://cmingxu.github.io/blog/css/screen.css">
+    <link rel="stylesheet" href="https://cmingxu.github.io/blog/css/github.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/styles/default.min.css">
+
+    <!-- Stylesheet for theme color -->
+    
+</head>
+
+<body class="post-template">
+
+    <header id="site-head">
+	
+	
+</header>
+    
+
+    <main class="content" role="main">
+	    <article class="post">
+	        <header>
+	        <h1 class="post-title">为什么要做Crane这个工具</h1>
+	        <div class="post-meta"><time datetime="03 November 2016">03 November 2016</time></div>
+	        </header>
+
+	        <section class="post-content">
+	            
+
+<p>截止写这篇博客为止，<a href="https://github.com/Dataman-Cloud/crane">Crane</a>在github上已经积累了482颗星，
+有102个Fork。
+回想两个月之前开始做Crane时候着实没想到有一天Crane会某种程度被关注，
+被使用，以及真真切切能帮助到圈内朋友。</p>
+
+<h2 id="为什么要做crane:d639a8c402cf3a88e6f937bbba7d93c1">为什么要做Crane</h2>
+
+<p>Crane出现时机是Docker
+1.12发布之后，Docker1.12内置了SwarmKit，可以看出Docker已经不满足单机的容器管理，
+而目标更明确的要管理主机集群以及数据中心，大有和K8s，Mesos三分天下的趋势。Swarm小巧灵活，容器使用者很容易能接受这样一种改变。</p>
+
+<p>此时来看市面上的几款管理面板多少有点过时，
+开发者中间最流行的为Shipyard和Docker的UCP，
+两者各有千秋，问题都是以容器为中心，
+管理单个主机上的容器。Docker1.12面世以后需要一款以数据中心，
+Docker集群为中心的管理工具， 主机(Node)和服务(Service)管理应该为核心，
+而容器管理的需求被降级;以往日志这Stats只能看单个容器，开发者也需要能从服务的角度看到服务的汇聚日志和汇聚状态;
+另外， 一些终端用户或者小企业需要的一些功能也需要被支持。</p>
+
+<h2 id="产品边界是如何界定的:d639a8c402cf3a88e6f937bbba7d93c1">产品边界是如何界定的</h2>
+
+<ul>
+<li><p>账号登录和账号管理</p>
+
+<p>作为一款集群管理而非主机管理的工具，
+更多的用户会一起共享这个集群，租户和组的概念就需要被抽象出来，
+这样才能做后续的功能， 比如资源用量分配，应用和数据隔离，授权和统计等。
+Shipyard是没有用户和组概念的，
+而UCP，Rancher这方面做的都不错。个人理解企业用户大多已经存在了授权的系统比如LDAP，为了Crane再引入账号系统阻力很大，Crane的账号设计尽量考虑到多种情况。
+Crane的账号和组是作为Plugin存在的，
+这个Plugin可以被启用或者禁用，目前对接账号系统是支持LDAP，DB和API几种（尚未实现，接口已经留好）， 另外如果用户没有自己的账号可以采用Crane自身提供的DB存储或者默认账号；还可以选择禁用账号系统。</p></li>
+
+<li><p>镜像仓库</p></li>
+</ul>
+
+<p>个人理解镜像仓库是企业用户的第二个最迫切需要的功能，
+由于墙的原因镜像下载时间都很痛苦；
+镜像仓库的安装配置也略费周折，和账号系统对接需要不少开发工作；镜像系统是不存在一个UI的，这部分需要使用者自己实现。
+基于这几个原因设计了Crane的镜像仓库功能。镜像仓库的Push和Pull操作都会通过授权，镜像增加或者移除都会存在存储当中，Push/Pull的数量也能被记录。 目前镜像仓库分<em>我的镜像</em>, <em>公有镜像</em>, *应用目录*几块功能。</p>
+
+<ul>
+<li>模糊搜索</li>
+</ul>
+
+<p>集群概念提出之后容器数量会急剧增多，
+开发过程中就发现定位一个容器或者一个镜像是比较痛苦的过程，
+因为镜像和容器都是主机里面的概念，查找一个容器首先要进入主机里，然后才能查看容器信息，于是大家就考虑能不方便定位一个容器。模糊搜索这个功能就被提炼出来，
+Crane启动之后会定时查询所有的主机信息，容器信息和镜像信息并建立索引，使用者借此轻易定位一条信息，并且轻松从界面上跳转过去，
+非常类似google的feeling lucky的功能。</p>
+
+<ul>
+<li>WebSSH</li>
+</ul>
+
+<p>这个功能实现的很好，
+不过个人感觉有点鸡肋，这相当于把容器当成虚拟机来用，
+引入了不必要的安全问题。</p>
+
+<ul>
+<li>应用级别容器日志/stats汇聚</li>
+</ul>
+
+<p>有了应用概念之后，应用日志散落在不同主机的不同容器里面，汇聚就变得重要。</p>
+
+<h2 id="技术架构背后:d639a8c402cf3a88e6f937bbba7d93c1">技术架构背后</h2>
+
+<ul>
+<li><p>插件化
+尝试把一部分非核心的功能做成插件的功能，
+比如用户和授权，可以由用户自己选择是否需要开启这个功能。</p></li>
+
+<li><p>feature flag
+参考netflix的feature
+flag，代码里面通过feature开关功能，决定程序运行的分支。</p></li>
+</ul>
+
+<h2 id="缺点:d639a8c402cf3a88e6f937bbba7d93c1">缺点</h2>
+
+<ul>
+<li>Crane安装部署略复杂， 个人设想是把需要的部件打包到一个镜像里面发布。</li>
+<li>连接到Swarm集群部分的代码需要支持高可用， 目前是连到Swarm
+Manager的一台上， 最好是连Leader，当Leader切换时候自动连接。</li>
+</ul>
+
+<h2 id="将来crane该如何继续帮助大家:d639a8c402cf3a88e6f937bbba7d93c1">将来Crane该如何继续帮助大家</h2>
+
+<ul>
+<li>需要更多的，好用的功能进来</li>
+<li>吸引更多的同行使用Crane，贡献Crane，健康发展</li>
+</ul>
+
+	        </section>
+
+	        <section class="post-tags" style="padding-bottom:60px;">
+	            <div class="post-meta tags">
+	            <i class="fa fa-fw fa-tag"></i>
+	            
+	            </div>
+	        </section>
+			
+			
+			
+			
+
+	        <section class="share">
+	            <p class="backtotop"><a data-scroll href="#site-head"><i class="fa fa-lg fa-fw fa-angle-double-up"></i></a><a data-scroll class="backtotoptext" href="#site-head"> </a></p>
+	            <p class="info prompt"></p>
+	            <a href="http://twitter.com/share?text=%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e5%81%9aCrane%e8%bf%99%e4%b8%aa%e5%b7%a5%e5%85%b7&url=https%3a%2f%2fcmingxu.github.io%2fblog%2fpost%2fwhy-crane%2f" title="Share on Twitter"
+	                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+	                <i class="fa fa-2x fa-fw fa-twitter-square"></i> <span class="hidden">Twitter</span>
+	            </a>
+	            <a href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fcmingxu.github.io%2fblog%2fpost%2fwhy-crane%2f" title="Share on Facebook"
+	                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+	                <i class="fa fa-2x fa-fw fa-facebook-square" style="margin-left: -8px"></i> <span class="hidden">Facebook</span>
+	            </a>
+	            <a href="https://plus.google.com/share?url=https%3a%2f%2fcmingxu.github.io%2fblog%2fpost%2fwhy-crane%2f" title="Share on Google+"
+	               onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+	                <i class="fa fa-2x fa-fw fa-google-plus-square" style="margin-left: -8px"></i> <span class="hidden">Google+</span>
+	            </a>
+	        </section>
+
+	        <footer class="post-footer">
+	            <section class="author">
+    <div class="authorimage" style="background: url(https://cmingxu.github.io/blog/img/avatar.jpg)"></div>
+    <h4></h4>
+    <p class="bio">
+	        </footer>
+	    </article>
+	</main>
+
+    <footer class="site-footer">
+	<div class="inner">
+		<section class="footer-social">
+			
+		    
+		    
+		    <a href="" target="_blank" title="RSS"><i class="fa fa-2x fa-fw fa-rss"></i> <span class="hidden">RSS</span></a>
+		</section>
+
+		<section class="copyright">&copy; 2016 <a href="https://cmingxu.github.io/blog/"></a>. 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://cmingxu.github.io/blog/js/index.js"></script>
+<script src="https://cmingxu.github.io/blog/js/smooth-scroll.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>
+
+<script>
+    smoothScroll.init({
+        speed: 800,
+        easing: 'easeInOutCubic',
+        updateURL: false,
+        offset: 125,
+    });
+</script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+</body>
+</html>

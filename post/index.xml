@@ -6,8 +6,109 @@
     <description>Recent content in Posts on 格物治理 知行合一</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 02 Nov 2016 14:55:30 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 03 Nov 2016 12:50:22 +0800</lastBuildDate>
     <atom:link href="https://cmingxu.github.io/blog/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>为什么要做Crane这个工具</title>
+      <link>https://cmingxu.github.io/blog/post/why-crane/</link>
+      <pubDate>Thu, 03 Nov 2016 12:50:22 +0800</pubDate>
+      
+      <guid>https://cmingxu.github.io/blog/post/why-crane/</guid>
+      <description>
+
+&lt;p&gt;截止写这篇博客为止，&lt;a href=&#34;https://github.com/Dataman-Cloud/crane&#34;&gt;Crane&lt;/a&gt;在github上已经积累了482颗星，
+有102个Fork。
+回想两个月之前开始做Crane时候着实没想到有一天Crane会某种程度被关注，
+被使用，以及真真切切能帮助到圈内朋友。&lt;/p&gt;
+
+&lt;h2 id=&#34;为什么要做crane:d639a8c402cf3a88e6f937bbba7d93c1&#34;&gt;为什么要做Crane&lt;/h2&gt;
+
+&lt;p&gt;Crane出现时机是Docker
+1.12发布之后，Docker1.12内置了SwarmKit，可以看出Docker已经不满足单机的容器管理，
+而目标更明确的要管理主机集群以及数据中心，大有和K8s，Mesos三分天下的趋势。Swarm小巧灵活，容器使用者很容易能接受这样一种改变。&lt;/p&gt;
+
+&lt;p&gt;此时来看市面上的几款管理面板多少有点过时，
+开发者中间最流行的为Shipyard和Docker的UCP，
+两者各有千秋，问题都是以容器为中心，
+管理单个主机上的容器。Docker1.12面世以后需要一款以数据中心，
+Docker集群为中心的管理工具， 主机(Node)和服务(Service)管理应该为核心，
+而容器管理的需求被降级;以往日志这Stats只能看单个容器，开发者也需要能从服务的角度看到服务的汇聚日志和汇聚状态;
+另外， 一些终端用户或者小企业需要的一些功能也需要被支持。&lt;/p&gt;
+
+&lt;h2 id=&#34;产品边界是如何界定的:d639a8c402cf3a88e6f937bbba7d93c1&#34;&gt;产品边界是如何界定的&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;账号登录和账号管理&lt;/p&gt;
+
+&lt;p&gt;作为一款集群管理而非主机管理的工具，
+更多的用户会一起共享这个集群，租户和组的概念就需要被抽象出来，
+这样才能做后续的功能， 比如资源用量分配，应用和数据隔离，授权和统计等。
+Shipyard是没有用户和组概念的，
+而UCP，Rancher这方面做的都不错。个人理解企业用户大多已经存在了授权的系统比如LDAP，为了Crane再引入账号系统阻力很大，Crane的账号设计尽量考虑到多种情况。
+Crane的账号和组是作为Plugin存在的，
+这个Plugin可以被启用或者禁用，目前对接账号系统是支持LDAP，DB和API几种（尚未实现，接口已经留好）， 另外如果用户没有自己的账号可以采用Crane自身提供的DB存储或者默认账号；还可以选择禁用账号系统。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;镜像仓库&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;个人理解镜像仓库是企业用户的第二个最迫切需要的功能，
+由于墙的原因镜像下载时间都很痛苦；
+镜像仓库的安装配置也略费周折，和账号系统对接需要不少开发工作；镜像系统是不存在一个UI的，这部分需要使用者自己实现。
+基于这几个原因设计了Crane的镜像仓库功能。镜像仓库的Push和Pull操作都会通过授权，镜像增加或者移除都会存在存储当中，Push/Pull的数量也能被记录。 目前镜像仓库分&lt;em&gt;我的镜像&lt;/em&gt;, &lt;em&gt;公有镜像&lt;/em&gt;, *应用目录*几块功能。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;模糊搜索&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;集群概念提出之后容器数量会急剧增多，
+开发过程中就发现定位一个容器或者一个镜像是比较痛苦的过程，
+因为镜像和容器都是主机里面的概念，查找一个容器首先要进入主机里，然后才能查看容器信息，于是大家就考虑能不方便定位一个容器。模糊搜索这个功能就被提炼出来，
+Crane启动之后会定时查询所有的主机信息，容器信息和镜像信息并建立索引，使用者借此轻易定位一条信息，并且轻松从界面上跳转过去，
+非常类似google的feeling lucky的功能。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;WebSSH&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;这个功能实现的很好，
+不过个人感觉有点鸡肋，这相当于把容器当成虚拟机来用，
+引入了不必要的安全问题。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;应用级别容器日志/stats汇聚&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;有了应用概念之后，应用日志散落在不同主机的不同容器里面，汇聚就变得重要。&lt;/p&gt;
+
+&lt;h2 id=&#34;技术架构背后:d639a8c402cf3a88e6f937bbba7d93c1&#34;&gt;技术架构背后&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;插件化
+尝试把一部分非核心的功能做成插件的功能，
+比如用户和授权，可以由用户自己选择是否需要开启这个功能。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;feature flag
+参考netflix的feature
+flag，代码里面通过feature开关功能，决定程序运行的分支。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;缺点:d639a8c402cf3a88e6f937bbba7d93c1&#34;&gt;缺点&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Crane安装部署略复杂， 个人设想是把需要的部件打包到一个镜像里面发布。&lt;/li&gt;
+&lt;li&gt;连接到Swarm集群部分的代码需要支持高可用， 目前是连到Swarm
+Manager的一台上， 最好是连Leader，当Leader切换时候自动连接。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;将来crane该如何继续帮助大家:d639a8c402cf3a88e6f937bbba7d93c1&#34;&gt;将来Crane该如何继续帮助大家&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;需要更多的，好用的功能进来&lt;/li&gt;
+&lt;li&gt;吸引更多的同行使用Crane，贡献Crane，健康发展&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
     
     <item>
       <title>hello world</title>
