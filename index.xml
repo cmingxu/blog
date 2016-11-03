@@ -111,14 +111,12 @@ Manager的一台上， 最好是连Leader，当Leader切换时候自动连接。
     </item>
     
     <item>
-      <title>hello world</title>
-      <link>https://cmingxu.github.io/blog/post/foobar/</link>
-      <pubDate>Wed, 02 Nov 2016 14:55:30 +0800</pubDate>
+      <title>Hello World</title>
+      <link>https://cmingxu.github.io/blog/post/helloworld/</link>
+      <pubDate>Wed, 02 Nov 2016 15:02:39 +0800</pubDate>
       
-      <guid>https://cmingxu.github.io/blog/post/foobar/</guid>
-      <description>&lt;p&gt;foobar &lt;strong&gt;barfoo&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;hello wold&lt;/p&gt;
+      <guid>https://cmingxu.github.io/blog/post/helloworld/</guid>
+      <description>&lt;p&gt;世界， 你好!&lt;/p&gt;
 </description>
     </item>
     
