@@ -6,8 +6,77 @@
     <description>Recent content on 格物治理 知行合一</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 03 Nov 2016 12:50:22 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 03 Nov 2016 17:59:30 +0800</lastBuildDate>
     <atom:link href="https://cmingxu.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>docker mount</title>
+      <link>https://cmingxu.github.io/blog/post/docker-mount/</link>
+      <pubDate>Thu, 03 Nov 2016 17:59:30 +0800</pubDate>
+      
+      <guid>https://cmingxu.github.io/blog/post/docker-mount/</guid>
+      <description>
+
+&lt;h2 id=&#34;什么是mount:ff58de255c8fccd147d72d9da0abe860&#34;&gt;什么是mount&lt;/h2&gt;
+
+&lt;h2 id=&#34;几种mount类型:ff58de255c8fccd147d72d9da0abe860&#34;&gt;几种mount类型&lt;/h2&gt;
+
+&lt;p&gt;docker@default:~/bash$ docker run -it &amp;ndash;cap-add=SYS_ADMIN  busybox sh
+/ # mount &amp;ndash;bind /home /mnt/test/
+mount: mounting /home on /mnt/test/ failed: No such file or directory
+/ # mkdir /mnt/test
+mkdir: can&amp;rsquo;t create directory &amp;lsquo;/mnt/test&amp;rsquo;: No such file or directory
+/ # mkdir -p /mnt/test
+/ # mount &amp;ndash;bind /home /mnt/test/title&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://groups.google.com/forum/#!topic/docker-user/O6by6Qa_HSM&#34;&gt;https://groups.google.com/forum/#!topic/docker-user/O6by6Qa_HSM&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;代码实现:ff58de255c8fccd147d72d9da0abe860&#34;&gt;代码实现&lt;/h2&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>一款基于Bash&#43;Httpie&#43;Jq组成的测试小工具</title>
+      <link>https://cmingxu.github.io/blog/post/diy-integration-test-tool/</link>
+      <pubDate>Thu, 03 Nov 2016 14:05:03 +0800</pubDate>
+      
+      <guid>https://cmingxu.github.io/blog/post/diy-integration-test-tool/</guid>
+      <description>&lt;p&gt;Crane开发过程中自造了一个集成测试小工具，用Bash脚本粘合和Httpie和Jq，虽然小巧但非常适合我们的场景。&lt;/p&gt;
+
+&lt;p&gt;[点击这里查看]()&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Docker1.12服务发现，负载均衡和Routing Mesh</title>
+      <link>https://cmingxu.github.io/blog/post/service-discovery-ingress-swarm/</link>
+      <pubDate>Thu, 03 Nov 2016 14:01:43 +0800</pubDate>
+      
+      <guid>https://cmingxu.github.io/blog/post/service-discovery-ingress-swarm/</guid>
+      <description>&lt;p&gt;之前写的一篇 &lt;code&gt;Docker1.12服务发现，负载均衡和Routing Mesh&lt;/code&gt; ，
+简单介绍了一下Swarm内部网络方面的实现。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.dockerinfo.net/2552.html&#34;&gt;移步这里&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Swarmkit 源码分享 - 微软容器编排Meetup</title>
+      <link>https://cmingxu.github.io/blog/post/swarmkit-source-code/</link>
+      <pubDate>Thu, 03 Nov 2016 13:54:17 +0800</pubDate>
+      
+      <guid>https://cmingxu.github.io/blog/post/swarmkit-source-code/</guid>
+      <description>&lt;p&gt;周六在的容器编排话题分享， 某同学把视频速记成文字， 辛苦辛苦&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;SwarmKit / Swarm / Swarm Mode&lt;/li&gt;
+&lt;li&gt;程序员眼里的调度器&lt;/li&gt;
+&lt;li&gt;源码讲解&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://mp.weixin.qq.com/s?__biz=MzA3MDg4Nzc2NQ==&amp;amp;mid=2652134404&amp;amp;idx=1&amp;amp;sn=6e6d3e95e48409bc5db88a3d225a9101&amp;amp;chksm=84d50c3eb3a2852817ced5c59e5e89a58a23918508e62b7535517db315562da51472d8d04c6b&amp;amp;mpshare=1&amp;amp;scene=1&amp;amp;srcid=1028P9IeDMhqV0cvVR2tHbqr#rd&#34;&gt;SwarmKit源码分享,点这里移步&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>为什么要做Crane这个Docker管理工具</title>

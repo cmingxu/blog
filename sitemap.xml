@@ -3,8 +3,28 @@
   
   <url>
     <loc>https://cmingxu.github.io/blog/</loc>
-    <lastmod>2016-11-03T12:50:22+08:00</lastmod>
+    <lastmod>2016-11-03T17:59:30+08:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://cmingxu.github.io/blog/post/docker-mount/</loc>
+    <lastmod>2016-11-03T17:59:30+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://cmingxu.github.io/blog/post/diy-integration-test-tool/</loc>
+    <lastmod>2016-11-03T14:05:03+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://cmingxu.github.io/blog/post/service-discovery-ingress-swarm/</loc>
+    <lastmod>2016-11-03T14:01:43+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://cmingxu.github.io/blog/post/swarmkit-source-code/</loc>
+    <lastmod>2016-11-03T13:54:17+08:00</lastmod>
   </url>
   
   <url>
