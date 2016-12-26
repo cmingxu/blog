@@ -6,34 +6,8 @@
     <description>Recent content in Posts on 格物致知 知行合一</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 03 Nov 2016 17:59:30 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 03 Nov 2016 14:05:03 +0800</lastBuildDate>
     <atom:link href="https://cmingxu.github.io/blog/post/index.xml" rel="self" type="application/rss+xml" />
-    
-    <item>
-      <title>docker mount</title>
-      <link>https://cmingxu.github.io/blog/post/docker-mount/</link>
-      <pubDate>Thu, 03 Nov 2016 17:59:30 +0800</pubDate>
-      
-      <guid>https://cmingxu.github.io/blog/post/docker-mount/</guid>
-      <description>
-
-&lt;h2 id=&#34;什么是mount:ff58de255c8fccd147d72d9da0abe860&#34;&gt;什么是mount&lt;/h2&gt;
-
-&lt;h2 id=&#34;几种mount类型:ff58de255c8fccd147d72d9da0abe860&#34;&gt;几种mount类型&lt;/h2&gt;
-
-&lt;p&gt;docker@default:~/bash$ docker run -it &amp;ndash;cap-add=SYS_ADMIN  busybox sh
-/ # mount &amp;ndash;bind /home /mnt/test/
-mount: mounting /home on /mnt/test/ failed: No such file or directory
-/ # mkdir /mnt/test
-mkdir: can&amp;rsquo;t create directory &amp;lsquo;/mnt/test&amp;rsquo;: No such file or directory
-/ # mkdir -p /mnt/test
-/ # mount &amp;ndash;bind /home /mnt/test/title&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://groups.google.com/forum/#!topic/docker-user/O6by6Qa_HSM&#34;&gt;https://groups.google.com/forum/#!topic/docker-user/O6by6Qa_HSM&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;代码实现:ff58de255c8fccd147d72d9da0abe860&#34;&gt;代码实现&lt;/h2&gt;
-</description>
-    </item>
     
     <item>
       <title>一款基于Bash&#43;Httpie&#43;Jq组成的测试小工具</title>
